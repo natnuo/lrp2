@@ -1,0 +1,4 @@
+client/node_modules
+client/build
+server/dist
+server/node_modules
