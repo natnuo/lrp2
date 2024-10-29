@@ -1,7 +1,6 @@
-import React, { useCallback, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import styles from "../css/index.module.css";
 import { DataColumnDisplay } from "./dcdisp";
-import * as Plot from "@observablehq/plot";
 import { PlotFigure } from "./PlotFigure";
 
 export interface DataColumn {
@@ -10,11 +9,11 @@ export interface DataColumn {
   active: boolean,
 };
 
-export interface ResData {
-  display_name: string,
-  y: number,
-  x: number
-};
+// export interface ResData {
+//   display_name: string,
+//   y: number,
+//   x: number
+// };
 
 const App = () => {
   const [xAxis, setXAxis] = useState({ display_name: "Correct Math Questions", code_name: "correct_math_questions", active: true } as DataColumn);
@@ -27,13 +26,14 @@ const App = () => {
     { display_name: "Colleges Applied To", code_name: "colleges_applied_to", active: false },
     { display_name: "Daily Exercise Minutes", code_name: "daily_exercise_minutes", active: false },
     { display_name: "Exam Study Hours", code_name: "exam_study_hours", active: false },
+    { display_name: "Hand Size (in)", code_name: "hand_size", active: false },
     { display_name: "Height (in)", code_name: "height", active: false },
     { display_name: "Instagram Followers", code_name: "instagram_followers", active: false },
     { display_name: "Knee to Floor Distance (in)", code_name: "knee_to_floor_distance", active: false },
     { display_name: "Shoe Size (US Male)", code_name: "shoe_size", active: false },
     { display_name: "Snapchat Streaks", code_name: "snapchat_streaks", active: true },
     { display_name: "Weekly Homework Hours", code_name: "weekly_homework_hours", active: false },
-    { display_name: "Weekly Work Hours", code_name: "weekly_work_hours", active: false },
+    { display_name: "Weekly Job-Work Hours", code_name: "weekly_job_work_hours", active: false },
     { display_name: "Wingspan (in)", code_name: "wingspan", active: false },
   ]);
 
@@ -47,7 +47,21 @@ const App = () => {
     updateYAxes({ code_name_remove: dataColumn.code_name, dc_add: { ...dataColumn, active: !dataColumn.active } });
   }, []);
 
-  const [data, setData] = useState([] as ResData[]);
+  const [data, setData] = useState<any>();
+  useEffect(() => {
+    fetch(`api/gd/${xAxis.code_name}/${yAxes.map((vv) => { return vv.code_name; }).join(",")}`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+    }).then(async (res) => {
+      setData(await res.json());
+    });
+  }, [xAxis, yAxes]);
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   return (
     <div className={`${styles["w-svw"]} ${styles["h-svh"]} ${styles["flex"]} ${styles["align-center"]} ${styles["justify-center"]}`}>
@@ -66,10 +80,16 @@ const App = () => {
         <div>
           <PlotFigure
             options={{
-              color: {legend: true},
-              marks: [
-                Plot.dot(data, {x:"x",y:"y",stroke:"display_name"})
-              ]
+              type: "scatter",
+              data: data,
+              options: {
+                scales: {
+                  x: {
+                    type: 'linear',
+                    position: 'bottom'
+                  }
+                }
+              }
             }}
           />
         </div>
