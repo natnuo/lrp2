@@ -1,7 +1,10 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import styles from "../css/index.module.css";
 import { DataColumnDisplay } from "./dcdisp";
 import { PlotFigure } from "./PlotFigure";
+import { Chart, registerables } from "chart.js";
+
+Chart.register(...registerables);
 
 export interface DataColumn {
   display_name: string,
@@ -38,18 +41,25 @@ const App = () => {
   ]);
 
   // crazy naming convention standardization right here ong
+  const validDeact = useCallback((dataColumn: DataColumn) => {
+    const actv = yAxes.filter((vv) => { return vv.active && vv.code_name !== dataColumn.code_name; });
+    return actv.length > 0;
+  }, [yAxes]);
+
   const swapToX = useCallback((dataColumn: DataColumn) => {
+    // if (!validDeact(dataColumn)) return;
     updateYAxes({ code_name_remove: dataColumn.code_name, dc_add: xAxis });
     setXAxis({ ...dataColumn, active: true });
   }, [xAxis]);
 
   const toggleActiveness = useCallback((dataColumn: DataColumn) => {
+    if (!validDeact(dataColumn)) return;
     updateYAxes({ code_name_remove: dataColumn.code_name, dc_add: { ...dataColumn, active: !dataColumn.active } });
-  }, []);
+  }, [validDeact]);
 
   const [data, setData] = useState<any>();
   useEffect(() => {
-    fetch(`api/gd/${xAxis.code_name}/${yAxes.map((vv) => { return vv.code_name; }).join(",")}`, {
+    fetch(`api/gd/${xAxis.code_name}/${yAxes.filter((vv) => { return vv.active }).map((vv) => { return vv.code_name; }).join(",")}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -63,9 +73,11 @@ const App = () => {
   //   console.log(data);
   // }, [data]);
 
+  const plotContRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className={`${styles["w-svw"]} ${styles["h-svh"]} ${styles["flex"]} ${styles["align-center"]} ${styles["justify-center"]}`}>
-      <div className={`${styles["border"]} ${styles["border-gray-300"]} ${styles["rounded"]} ${styles["flex-grow"]} ${styles["m-32"]} ${styles["p-4"]} ${styles["gap-4"]} ${styles["flex"]}`}>
+    <div className={`${styles["w-svw"]} ${styles["h-svh"]} ${styles["flex"]} ${styles["align-center"]} ${styles["justify-center"]} ${styles["pattern-diagonal-stripes-lg"]}`} style={{ color: "#fff8ff" }}>
+      <div className={`${styles["border"]} ${styles["border-purple-300"]} ${styles["bg-white"]} ${styles["text-black"]} ${styles["rounded-lg"]} ${styles["flex-grow"]} ${styles["m-32"]} ${styles["p-4"]} ${styles["gap-4"]} ${styles["flex"]}`} style={{ maxWidth: "1200px", maxHeight: "700px", filter: "drop-shadow(0 0 10px #ffe5ff)" }}>
         <div className={`${styles["h-full"]} ${styles["w-64"]} ${styles["gap-4"]} ${styles["flex"]} ${styles["flex-col"]}`}>
           <h2 className={`${styles["font-semibold"]}`}>X-Axis</h2>
           <DataColumnDisplay data_column_obj={xAxis}></DataColumnDisplay>
@@ -77,21 +89,46 @@ const App = () => {
             })
           }
         </div>
-        <div>
-          <PlotFigure
-            options={{
-              type: "scatter",
-              data: data,
-              options: {
-                scales: {
-                  x: {
-                    type: 'linear',
-                    position: 'bottom'
+        <div className={`${styles["flex-grow"]} ${styles["flex"]} ${styles["flex-col"]}`}>
+          <div className={`${styles["flex"]} ${styles["justify-between"]} ${styles["px-4"]} ${styles["align-middle"]} ${styles["mb-4"]}`}>
+            <div className={`${styles["flex"]} ${styles["flex-col"]} ${styles["gap-2"]}`}>
+              <h1 className={`${styles["text-2xl"]} ${styles["font-semibold"]} ${styles["leading-3"]} ${styles["mt-2"]}`}>Linear Regression Project!</h1>
+              <span className={`${styles["text-sm"]} ${styles["text-gray-500"]}`}>Nathan Tao</span>
+            </div>
+            <div className={`${styles["flex"]} ${styles["gap-2"]} ${styles["h-10"]}`}>
+              <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "9px", backgroundColor: "#242938", width: "40px" }}>
+                <img src="https://www.chartjs.org/docs/latest/favicon.ico" style={{ width: "69%", height: "69%" }} alt="Made with Chart.js"></img>
+              </div>
+              <img src="https://camo.githubusercontent.com/eed59029fe16e0f33431721522fb0eede534a072db478245b89b6bc4ab1b10f3/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d65787072657373" alt="Made with Express.js"></img>
+              <img src="https://camo.githubusercontent.com/c0ed7f7d36d6437790846bc99e238abd7cb2205dbec27c6e6be959abb04e2733/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d6e6f64656a73" alt="Made with Node.js"></img>
+              <img src="https://camo.githubusercontent.com/cb1fa2738a401d7952e8c150707084c5336ba9d544a238fad8c8d4d942353d8a/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7265616374" alt="Made with React.js"></img>
+              <img src="https://camo.githubusercontent.com/ea3a367c6ef785b5447cba5462d868ffed003c813a1c2e0d5aed924fc0a7fcda/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7473" alt="Made with Typescript"></img>
+            </div>
+          </div>
+          <div ref={plotContRef} className={`${styles["flex-grow"]}`}>
+            <PlotFigure
+              options={{
+                type: "scatter",
+                data: {
+                  datasets: data,
+                },
+                options: {
+                  scales: {
+                    x: {
+                      type: "linear",
+                      position: "bottom",
+                      title: {
+                        text: xAxis.display_name,
+                        display: true,
+                      }
+                    }
                   }
                 }
-              }
-            }}
-          />
+              }}
+              width={plotContRef.current?.scrollWidth}
+              height={plotContRef.current?.scrollHeight ? plotContRef.current.scrollHeight - 200 : 0}
+            />
+          </div>
         </div>
       </div>
     </div>

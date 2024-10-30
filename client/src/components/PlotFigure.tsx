@@ -1,15 +1,16 @@
-import { Chart, ChartConfiguration } from "chart.js";
-import { useEffect, useReducer, useRef } from "react";
+import { Chart, registerables } from "chart.js";
+import { useEffect, useRef, useState } from "react";
 
-export const PlotFigure = ({options}: {options: ChartConfiguration}) => {
+Chart.register(...registerables);
+
+export const PlotFigure = ({options, width, height}: {options: any, width?: string | number, height?: string | number}) => {
   const ref = useRef<HTMLCanvasElement>(null);
-  const [, setChart] = useReducer((state: Chart | undefined) => {
-    if (!ref.current) return state;
-    state?.destroy();
-    return new Chart(ref.current, options);
-  }, undefined);
+  const [chart, setChart] = useState<Chart>();
   useEffect(() => {  // TODO: FIX CANVAS ALREADY IN USE BUG
-    setChart();
+    if (!ref.current) return;
+    chart?.destroy();
+    setChart(new Chart(ref.current, options));
+    // eslint-disable-next-line
   }, [options]);
-  return (<canvas ref={ref} id={Date.now() + "" + Math.random()}></canvas>);
+  return (<canvas width={width} height={height} ref={ref} id={Date.now() + "" + Math.random()}></canvas>);
 };

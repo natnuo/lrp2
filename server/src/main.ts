@@ -45,12 +45,12 @@ app.post("/api/gd/:x/:y", (req, res) => {
     .on("error", (error) => { console.error(error); })
     .on("data", (row) => {
       for (let key of Object.keys(row)) {
-        if (!yaxes.has(key)) continue;
+        if (!yaxes.has(key) || !row[key] || row[key] === "0" || !row[xaxis] || row[xaxis] === "0") continue;
         data[CNTODN[key as keyof typeof CNTODN]] = [
           ...data[CNTODN[key as keyof typeof CNTODN]]??[],
           {
-            x: row[xaxis],
-            y: row[key]??0,
+            x: parseFloat(row[xaxis]),
+            y: parseFloat(row[key]),
           },
         ];
       }
@@ -58,12 +58,61 @@ app.post("/api/gd/:x/:y", (req, res) => {
     .on("end", () => {
       let dbt = [];
       let i=0;
-      const colors = ["#f88", "#ff8", "#8f8", "#8ff", "#88f", "#f8f", "#f55", "#ff5", "#5f5", "5ff", "55f", "f5f"];
+      const colors = ["#f88", "#88f", "#5f5", "#ff5", "#f5f", "#5ff", "#f55", "#5f5", "#55f", "#f22", "#22f", "#1f1", "#ff2", "#f2f", "#2ff"];
       for (let [key, value] of Object.entries(data)) {
+        let smx=0, smy=0;
+        // console.log(value);
+        for (let point of value) {
+          smx += point.x;
+          smy += point.y;
+        }
+
+        const n = value.length;
+
+        const xbar = smx/n, ybar = smy/n;
+
+        let smdx=0, smdy=0;
+        let mxx=Number.NEGATIVE_INFINITY, mnx=Infinity;
+        for (let point of value) {
+          smdx += Math.pow(point.x - xbar, 2);
+          smdy += Math.pow(point.y - ybar, 2);
+          mxx = Math.max(point.x, mxx);
+          mnx = Math.min(point.x, mnx);
+        }
+
+        const sx = Math.sqrt(smdx / n-1), sy = Math.sqrt(smdy / n-1);
+
+        // console.log(smx, smy, xbar, ybar, sx, sy);
+
+        let smxyp = 0;
+        for (let point of value) {
+          smxyp += (point.x - xbar) * (point.y - ybar);
+        }
+
+        const r = ((1/(n*sx*sy))*smxyp)
+
+        const b1 = r*sy/sx;
+        const b0 = ybar - b1 * xbar;
+
+        let regression = [];
+        for (let x=mnx-10;x<mxx+10;x+=10) {
+          regression.push({
+            x: x,
+            y: b1*x+b0,
+          });
+        }
+
         dbt.push({
           label: key,
           data: value,
-          backgroundColor: colors[i++],
+          backgroundColor: colors[i],
+        });
+        dbt.push({
+          label: `Best Fit Line (${key})`,
+          data: regression,
+          borderColor: colors[i++] + "8",
+          backgroundColor: "transparent",
+          type: "line",
         });
       }
       res.send(dbt);
