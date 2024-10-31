@@ -86,7 +86,7 @@ const App = () => {
               ? "Make Residual Plot"
               : <div>
                 Make The Other Plot
-                <span className={`${styles["font-normal"]} ${styles["text-slate-300"]} ${styles["block"]}`} style={{ fontSize: "0.65rem" }}>(whatever it's called)</span>
+                <span className={`${styles["font-normal"]} ${styles["text-slate-300"]} ${styles["block"]}`} style={{ fontSize: "0.55rem" }}>(whatever it's called)</span>
               </div>
             }
           </button>
@@ -104,17 +104,18 @@ const App = () => {
         <div className={`${styles["flex-grow"]} ${styles["flex"]} ${styles["flex-col"]}`}>
           <div className={`${styles["flex"]} ${styles["justify-between"]} ${styles["px-4"]} ${styles["align-middle"]} ${styles["mb-4"]}`}>
             <div className={`${styles["flex"]} ${styles["flex-col"]} ${styles["gap-2"]}`}>
-              <h1 className={`${styles["text-2xl"]} ${styles["font-semibold"]} ${styles["leading-3"]} ${styles["mt-2"]}`}>Linear Regression Project!</h1>
+              <a href="https://github.com/natnuo/lrp2" target="_blank" className={`${styles["text-2xl"]} ${styles["transition-all"]} ${styles["hover:text-pink-700"]} ${styles["font-semibold"]} ${styles["leading-3"]} ${styles["mt-2"]}`}>Linear Regression Project!</a>
               <span className={`${styles["text-sm"]} ${styles["text-gray-500"]}`}>Nathan Tao</span>
             </div>
             <div className={`${styles["flex"]} ${styles["gap-2"]} ${styles["h-10"]}`}>
-              <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "9px", backgroundColor: "#242938", width: "40px" }}>
+              <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "9px", backgroundColor: "#242938", width: "40px" }} title="Made with Chart.js">
                 <img src="https://www.chartjs.org/docs/latest/favicon.ico" style={{ width: "69%", height: "69%" }} alt="Made with Chart.js"></img>
               </div>
-              <img src="https://camo.githubusercontent.com/eed59029fe16e0f33431721522fb0eede534a072db478245b89b6bc4ab1b10f3/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d65787072657373" alt="Made with Express.js"></img>
-              <img src="https://camo.githubusercontent.com/c0ed7f7d36d6437790846bc99e238abd7cb2205dbec27c6e6be959abb04e2733/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d6e6f64656a73" alt="Made with Node.js"></img>
-              <img src="https://camo.githubusercontent.com/cb1fa2738a401d7952e8c150707084c5336ba9d544a238fad8c8d4d942353d8a/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7265616374" alt="Made with React.js"></img>
-              <img src="https://camo.githubusercontent.com/ea3a367c6ef785b5447cba5462d868ffed003c813a1c2e0d5aed924fc0a7fcda/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7473" alt="Made with Typescript"></img>
+              <img src="https://camo.githubusercontent.com/eed59029fe16e0f33431721522fb0eede534a072db478245b89b6bc4ab1b10f3/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d65787072657373" alt="Made with Express.js" title="Made with Express.js"></img>
+              <img src="https://camo.githubusercontent.com/c0ed7f7d36d6437790846bc99e238abd7cb2205dbec27c6e6be959abb04e2733/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d6e6f64656a73" alt="Made with Node.js" title="Made with Node.js"></img>
+              <img src="https://camo.githubusercontent.com/cb1fa2738a401d7952e8c150707084c5336ba9d544a238fad8c8d4d942353d8a/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7265616374" alt="Made with React.js" title="Made with React.js"></img>
+              <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/65dea6c4eaca7da319e552c09f4cf5a9a8dab2c8/icons/TailwindCSS-Dark.svg" alt="Made with Tailwind.css" title="Made with Tailwind.css"></img>
+              <img src="https://camo.githubusercontent.com/ea3a367c6ef785b5447cba5462d868ffed003c813a1c2e0d5aed924fc0a7fcda/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7473" alt="Made with Typescript" title="Made with Typescript"></img>
             </div>
           </div>
           <div ref={plotContRef} className={`${styles["flex-grow"]}`}>
