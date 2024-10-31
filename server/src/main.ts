@@ -34,7 +34,8 @@ const CNTODN = {
 };
 
 // TODO: HANDLE DATA REQUESTS, CHECK FORMAT IN App.tsx
-app.post("/api/gd/:x/:y", (req, res) => {
+app.post("/api/gd/:isResidual/:x/:y", (req, res) => {
+  const isResidual = req.params.isResidual === '1';
   const xaxis = req.params.x;
   const yaxes = new Set(req.params.y.split(","));
 
@@ -102,18 +103,31 @@ app.post("/api/gd/:x/:y", (req, res) => {
           });
         }
 
-        dbt.push({
-          label: key,
-          data: value,
-          backgroundColor: colors[i],
-        });
-        dbt.push({
-          label: `Best Fit Line (${key})`,
-          data: regression,
-          borderColor: colors[i++] + "8",
-          backgroundColor: "transparent",
-          type: "line",
-        });
+        if (!isResidual) {
+          dbt.push({
+            label: key,
+            data: value,
+            backgroundColor: colors[i],
+          });
+          dbt.push({
+            label: `Best Fit Line (${key})`,
+            data: regression,
+            borderColor: colors[i++] + "8",
+            backgroundColor: "transparent",
+            type: "line",
+          });
+        } else {
+          dbt.push({
+            label: key,
+            data: value.map((vv: any) => {
+              return {
+                x: vv.x,
+                y: vv.y - (b1*vv.x+b0),
+              }
+            }),
+            backgroundColor: colors[i++],
+          })
+        }
       }
       res.send(dbt);
     });

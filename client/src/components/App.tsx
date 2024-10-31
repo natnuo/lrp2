@@ -29,7 +29,7 @@ const App = () => {
     { display_name: "Colleges Applied To", code_name: "colleges_applied_to", active: false },
     { display_name: "Daily Exercise Minutes", code_name: "daily_exercise_minutes", active: false },
     { display_name: "Exam Study Hours", code_name: "exam_study_hours", active: false },
-    { display_name: "Hand Size (in)", code_name: "hand_size", active: false },
+    // { display_name: "Hand Size (in)", code_name: "hand_size", active: false },
     { display_name: "Height (in)", code_name: "height", active: false },
     { display_name: "Instagram Followers", code_name: "instagram_followers", active: false },
     { display_name: "Knee to Floor Distance (in)", code_name: "knee_to_floor_distance", active: false },
@@ -58,8 +58,9 @@ const App = () => {
   }, [validDeact]);
 
   const [data, setData] = useState<any>();
+  const [isResidual, setIsResidual] = useState(false);
   useEffect(() => {
-    fetch(`api/gd/${xAxis.code_name}/${yAxes.filter((vv) => { return vv.active }).map((vv) => { return vv.code_name; }).join(",")}`, {
+    fetch(`api/gd/${isResidual ? 1 : 0}/${xAxis.code_name}/${yAxes.filter((vv) => { return vv.active }).map((vv) => { return vv.code_name; }).join(",")}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -67,7 +68,7 @@ const App = () => {
     }).then(async (res) => {
       setData(await res.json());
     });
-  }, [xAxis, yAxes]);
+  }, [xAxis, yAxes, isResidual]);
 
   // useEffect(() => {
   //   console.log(data);
@@ -77,8 +78,19 @@ const App = () => {
 
   return (
     <div className={`${styles["w-svw"]} ${styles["h-svh"]} ${styles["flex"]} ${styles["align-center"]} ${styles["justify-center"]} ${styles["pattern-diagonal-stripes-lg"]}`} style={{ color: "#fff8ff" }}>
-      <div className={`${styles["border"]} ${styles["border-purple-300"]} ${styles["bg-white"]} ${styles["text-black"]} ${styles["rounded-lg"]} ${styles["flex-grow"]} ${styles["m-32"]} ${styles["p-4"]} ${styles["gap-4"]} ${styles["flex"]}`} style={{ maxWidth: "1200px", maxHeight: "700px", filter: "drop-shadow(0 0 10px #ffe5ff)" }}>
-        <div className={`${styles["h-full"]} ${styles["w-64"]} ${styles["gap-4"]} ${styles["flex"]} ${styles["flex-col"]}`}>
+      <div className={`${styles["border"]} ${styles["border-purple-300"]} ${styles["bg-gradient-to-tr"]} ${styles["from-slate-50"]} ${styles["via-white"]} ${styles["to-white"]} ${styles["text-black"]} ${styles["rounded-lg"]} ${styles["flex-grow"]} ${styles["m-32"]} ${styles["p-4"]} ${styles["gap-4"]} ${styles["flex"]}`} style={{ maxWidth: "1200px", maxHeight: "700px", filter: "drop-shadow(0 0 10px #ffe5ff)" }}>
+        <div className={`${styles["h-full"]} ${styles["w-64"]} ${styles["gap-2"]} ${styles["flex"]} ${styles["flex-col"]} ${styles["overflow-y-scroll"]} ${styles["pr-4"]}`}>
+          <button className={`${styles["w-full"]} ${styles["bg-purple-800"]} ${styles["text-slate-100"]} ${styles["font-bold"]} ${styles["rounded-lg"]} ${styles["p-2"]} ${styles["pointer"]} ${styles["transition-all"]} ${styles["duration-300"]} ${styles["bg-gradient-to-tr"]} ${styles["from-purple-900"]} ${styles["to-purple-800"]} ${styles["hover:brightness-125"]}`} onClick={() => { setIsResidual(!isResidual); }}>
+            {
+              !isResidual
+              ? "Make Residual Plot"
+              : <div>
+                Make The Other Plot
+                <span className={`${styles["font-normal"]} ${styles["text-slate-300"]} ${styles["block"]}`} style={{ fontSize: "0.65rem" }}>(whatever it's called)</span>
+              </div>
+            }
+          </button>
+          <hr className={`${styles["border-gray-300"]}`} />
           <h2 className={`${styles["font-semibold"]}`}>X-Axis</h2>
           <DataColumnDisplay data_column_obj={xAxis}></DataColumnDisplay>
           <hr className={`${styles["border-gray-300"]}`} />
@@ -113,6 +125,22 @@ const App = () => {
                   datasets: data,
                 },
                 options: {
+                  plugins: {
+                      title: {
+                          display: true,
+                          text: (`${yAxes.filter((vv) => { return vv.active; }).length === 1
+                          ? yAxes.filter((vv) => { return vv.active; })[0].display_name
+                          : (
+                            yAxes.filter((vv) => { return vv.active; }).length === 2
+                            ? `${yAxes[0].display_name} and ${yAxes[1].display_name}`
+                            : (
+                              yAxes.filter((vv) => { return vv.active; }).map((vv) => { return vv.display_name; }).slice(0, -1).join(", ") + ", and "
+                              + yAxes.filter((vv) => { return vv.active; }).map((vv) => { return vv.display_name; }).at(-1)
+                            )
+                          )
+                        } vs ${xAxis.display_name}`)
+                      }
+                  },
                   scales: {
                     x: {
                       type: "linear",
