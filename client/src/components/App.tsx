@@ -107,7 +107,7 @@ const App = () => {
         <div className={`${styles["flex-grow"]} ${styles["flex"]} ${styles["flex-col"]}`}>
           <div className={`${styles["flex"]} ${styles["justify-between"]} ${styles["px-4"]} ${styles["items-center"]} ${styles["mb-4"]}`}>
             <div className={`${styles["flex"]} ${styles["flex-col"]} ${styles["gap-2"]}`}>
-              <a href="https://github.com/natnuo/lrp2" rel="noreferrer" target="_blank" className={`${styles["text-2xl"]} ${styles["transition-all"]} ${styles["hover:text-pink-700"]} ${styles["font-semibold"]} ${styles["leading-3"]} ${styles["mt-2"]}`}>Linear Regression Project!</a>
+              <a href="https://github.com/natnuo/lrp2" rel="noreferrer" target="_blank" className={`${styles["text-base"]} ${styles["md:text-lg"]} ${styles["lg:text-2xl"]} ${styles["transition-all"]} ${styles["hover:text-pink-700"]} ${styles["font-semibold"]} ${styles["leading-3"]} ${styles["mt-2"]}`}>Linear Regression Project!</a>
               <span className={`${styles["text-sm"]} ${styles["text-gray-500"]}`}>Nathan Tao</span>
             </div>
             <div className={`${styles["flex"]} ${styles["gap-1"]} ${styles["w-20"]} ${styles["flex-wrap"]}`}>
