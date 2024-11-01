@@ -39,7 +39,7 @@ const CNTODN = {
 app.post("/api/gd/:isResidual/:x/:y", (req, res) => {
   const isResidual = req.params.isResidual === "1";
   const xaxis = req.params.x;
-  const yaxes = new Set(req.params.y.split(","));
+  const yaxes = req.params.y.split(",");
 
   let data: {[key: string]: any} = {};
 
@@ -48,7 +48,7 @@ app.post("/api/gd/:isResidual/:x/:y", (req, res) => {
     .on("error", (error) => { console.error(error); })
     .on("data", (row) => {
       for (let key of Object.keys(row)) {
-        if (!yaxes.has(key) || !row[key] || row[key] === "0" || !row[xaxis] || row[xaxis] === "0") continue;
+        if (!yaxes.includes(key) || !row[key] || row[key] === "0" || !row[xaxis] || row[xaxis] === "0") continue;
         data[CNTODN[key as keyof typeof CNTODN]] = [
           ...data[CNTODN[key as keyof typeof CNTODN]]??[],
           {
@@ -131,7 +131,22 @@ app.post("/api/gd/:isResidual/:x/:y", (req, res) => {
           })
         }
       }
-      res.send(dbt);
+
+      // shit code warning
+      const it = yaxes.entries();
+      let title = "";
+      if (yaxes.length === 1) {
+        title = CNTODN[yaxes[0] as keyof typeof CNTODN];
+      } else if (yaxes.length === 2) {
+        title = `${CNTODN[yaxes[0] as keyof typeof CNTODN]} and ${CNTODN[yaxes[1] as keyof typeof CNTODN]}`;
+      } else {
+        title = `${yaxes.slice(0, -1).map((vv) => { return CNTODN[vv as keyof typeof CNTODN]; }).join(", ")} and ${CNTODN[yaxes.at(-1) as keyof typeof CNTODN]}`;
+      }
+      title+=" vs " + xaxis;
+      if (isResidual) {
+        title += " (Residual Plot)";
+      }
+      res.send({ data: dbt, title });
     });
 });
 
