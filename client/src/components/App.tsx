@@ -58,6 +58,7 @@ const App = () => {
   }, [validDeact]);
 
   const [data, setData] = useState<any>();
+  const [title, setTitle] = useState<string>();
   const [isResidual, setIsResidual] = useState(false);
   useEffect(() => {
     fetch(`api/gd/${isResidual ? 1 : 0}/${xAxis.code_name}/${yAxes.filter((vv) => { return vv.active }).map((vv) => { return vv.code_name; }).join(",")}`, {
@@ -66,7 +67,9 @@ const App = () => {
         "Content-type": "application/json",
       },
     }).then(async (res) => {
-      setData(await res.json());
+      const json = await res.json();
+      setData(json.data);
+      setTitle(json.title);
     });
   }, [xAxis, yAxes, isResidual]);
 
@@ -127,20 +130,10 @@ const App = () => {
                 },
                 options: {
                   plugins: {
-                      title: {
-                          display: true,
-                          text: (`${yAxes.filter((vv) => { return vv.active; }).length === 1
-                          ? yAxes.filter((vv) => { return vv.active; })[0].display_name
-                          : (
-                            yAxes.filter((vv) => { return vv.active; }).length === 2
-                            ? `${yAxes[0].display_name} and ${yAxes[1].display_name}`
-                            : (
-                              yAxes.filter((vv) => { return vv.active; }).map((vv) => { return vv.display_name; }).slice(0, -1).join(", ") + ", and "
-                              + yAxes.filter((vv) => { return vv.active; }).map((vv) => { return vv.display_name; }).at(-1)
-                            )
-                          )
-                        } vs ${xAxis.display_name}${isResidual ? " (Residual Plot)" : ""}`)
-                      }
+                    title: {
+                      display: true,
+                      text: title,
+                    }
                   },
                   scales: {
                     x: {
