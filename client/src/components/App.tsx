@@ -139,7 +139,7 @@ const App = () => {
                               + yAxes.filter((vv) => { return vv.active; }).map((vv) => { return vv.display_name; }).at(-1)
                             )
                           )
-                        } vs ${xAxis.display_name}`)
+                        } vs ${xAxis.display_name}${isResidual ? " (Residual Plot)" : ""}`)
                       }
                   },
                   scales: {
