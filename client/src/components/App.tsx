@@ -105,13 +105,13 @@ const App = () => {
           }
         </div>
         <div className={`${styles["flex-grow"]} ${styles["flex"]} ${styles["flex-col"]}`}>
-          <div className={`${styles["flex"]} ${styles["justify-between"]} ${styles["px-4"]} ${styles["align-middle"]} ${styles["mb-4"]}`}>
+          <div className={`${styles["flex"]} ${styles["justify-between"]} ${styles["px-4"]} ${styles["items-center"]} ${styles["mb-4"]}`}>
             <div className={`${styles["flex"]} ${styles["flex-col"]} ${styles["gap-2"]}`}>
               <a href="https://github.com/natnuo/lrp2" rel="noreferrer" target="_blank" className={`${styles["text-2xl"]} ${styles["transition-all"]} ${styles["hover:text-pink-700"]} ${styles["font-semibold"]} ${styles["leading-3"]} ${styles["mt-2"]}`}>Linear Regression Project!</a>
               <span className={`${styles["text-sm"]} ${styles["text-gray-500"]}`}>Nathan Tao</span>
             </div>
             <div className={`${styles["flex"]} ${styles["gap-1"]} ${styles["h-5"]}`}>
-              <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "2.25px", backgroundColor: "#242938", width: "20px" }} title="Made with Chart.js">
+              <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "4.5px", backgroundColor: "#242938", width: "20px" }} title="Made with Chart.js">
                 <img src="https://www.chartjs.org/docs/latest/favicon.ico" style={{ width: "69%", height: "69%" }} alt="Made with Chart.js"></img>
               </div>
               <img src="https://camo.githubusercontent.com/eed59029fe16e0f33431721522fb0eede534a072db478245b89b6bc4ab1b10f3/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d65787072657373" alt="Made with Express.js" title="Made with Express.js"></img>
