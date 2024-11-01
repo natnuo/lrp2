@@ -81,7 +81,7 @@ const App = () => {
 
   return (
     <div className={`${styles["w-svw"]} ${styles["h-svh"]} ${styles["flex"]} ${styles["align-center"]} ${styles["justify-center"]} ${styles["pattern-diagonal-stripes-lg"]}`} style={{ color: "#fff8ff" }}>
-      <div className={`${styles["border"]} ${styles["border-purple-300"]} ${styles["bg-gradient-to-tr"]} ${styles["from-slate-50"]} ${styles["via-white"]} ${styles["to-white"]} ${styles["text-black"]} ${styles["rounded-lg"]} ${styles["flex-grow"]} ${styles["m-32"]} ${styles["p-4"]} ${styles["gap-4"]} ${styles["flex"]}`} style={{ maxWidth: "1200px", maxHeight: "700px", filter: "drop-shadow(0 0 10px #ffe5ff)" }}>
+      <div className={`${styles["border"]} ${styles["border-purple-300"]} ${styles["bg-gradient-to-tr"]} ${styles["from-slate-50"]} ${styles["via-white"]} ${styles["to-white"]} ${styles["text-black"]} ${styles["rounded-lg"]} ${styles["flex-grow"]} ${styles["m-16"]} ${styles["p-4"]} ${styles["gap-4"]} ${styles["flex"]}`} style={{ maxWidth: "1200px", maxHeight: "700px", filter: "drop-shadow(0 0 10px #ffe5ff)" }}>
         <div className={`${styles["h-full"]} ${styles["w-64"]} ${styles["gap-2"]} ${styles["flex"]} ${styles["flex-col"]} ${styles["overflow-y-scroll"]} ${styles["pr-4"]}`}>
           <button className={`${styles["w-full"]} ${styles["bg-purple-800"]} ${styles["text-slate-100"]} ${styles["font-bold"]} ${styles["rounded-lg"]} ${styles["p-2"]} ${styles["pointer"]} ${styles["transition-all"]} ${styles["duration-300"]} ${styles["bg-gradient-to-tr"]} ${styles["from-purple-900"]} ${styles["to-purple-800"]} ${styles["hover:brightness-125"]}`} onClick={() => { setIsResidual(!isResidual); }}>
             {
