@@ -114,11 +114,11 @@ const App = () => {
               <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "4.5px", backgroundColor: "#242938", width: "20px" }} title="Made with Chart.js">
                 <img src="https://www.chartjs.org/docs/latest/favicon.ico" style={{ width: "69%", height: "69%" }} alt="Made with Chart.js"></img>
               </div>
-              <img src="https://camo.githubusercontent.com/eed59029fe16e0f33431721522fb0eede534a072db478245b89b6bc4ab1b10f3/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d65787072657373" alt="Made with Express.js" title="Made with Express.js"></img>
-              <img src="https://camo.githubusercontent.com/c0ed7f7d36d6437790846bc99e238abd7cb2205dbec27c6e6be959abb04e2733/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d6e6f64656a73" alt="Made with Node.js" title="Made with Node.js"></img>
-              <img src="https://camo.githubusercontent.com/cb1fa2738a401d7952e8c150707084c5336ba9d544a238fad8c8d4d942353d8a/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7265616374" alt="Made with React.js" title="Made with React.js"></img>
-              <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/65dea6c4eaca7da319e552c09f4cf5a9a8dab2c8/icons/TailwindCSS-Dark.svg" alt="Made with Tailwind.css" title="Made with Tailwind.css"></img>
-              <img src="https://camo.githubusercontent.com/ea3a367c6ef785b5447cba5462d868ffed003c813a1c2e0d5aed924fc0a7fcda/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7473" alt="Made with Typescript" title="Made with Typescript"></img>
+              <img className={`${styles["h-5"]}`} src="https://camo.githubusercontent.com/eed59029fe16e0f33431721522fb0eede534a072db478245b89b6bc4ab1b10f3/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d65787072657373" alt="Made with Express.js" title="Made with Express.js"></img>
+              <img className={`${styles["h-5"]}`} src="https://camo.githubusercontent.com/c0ed7f7d36d6437790846bc99e238abd7cb2205dbec27c6e6be959abb04e2733/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d6e6f64656a73" alt="Made with Node.js" title="Made with Node.js"></img>
+              <img className={`${styles["h-5"]}`} src="https://camo.githubusercontent.com/cb1fa2738a401d7952e8c150707084c5336ba9d544a238fad8c8d4d942353d8a/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7265616374" alt="Made with React.js" title="Made with React.js"></img>
+              <img className={`${styles["h-5"]}`} src="https://raw.githubusercontent.com/tandpfun/skill-icons/65dea6c4eaca7da319e552c09f4cf5a9a8dab2c8/icons/TailwindCSS-Dark.svg" alt="Made with Tailwind.css" title="Made with Tailwind.css"></img>
+              <img className={`${styles["h-5"]}`} src="https://camo.githubusercontent.com/ea3a367c6ef785b5447cba5462d868ffed003c813a1c2e0d5aed924fc0a7fcda/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7473" alt="Made with Typescript" title="Made with Typescript"></img>
             </div>
           </div>
           <div ref={plotContRef} className={`${styles["flex-grow"]}`}>
