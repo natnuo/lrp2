@@ -110,7 +110,7 @@ const App = () => {
               <a href="https://github.com/natnuo/lrp2" rel="noreferrer" target="_blank" className={`${styles["text-2xl"]} ${styles["transition-all"]} ${styles["hover:text-pink-700"]} ${styles["font-semibold"]} ${styles["leading-3"]} ${styles["mt-2"]}`}>Linear Regression Project!</a>
               <span className={`${styles["text-sm"]} ${styles["text-gray-500"]}`}>Nathan Tao</span>
             </div>
-            <div className={`${styles["flex"]} ${styles["gap-1"]} ${styles["h-5"]} ${styles["w-20"]} ${styles["flex-wrap"]}`}>
+            <div className={`${styles["flex"]} ${styles["gap-1"]} ${styles["w-20"]} ${styles["flex-wrap"]}`}>
               <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "4.5px", backgroundColor: "#242938", width: "20px" }} title="Made with Chart.js">
                 <img src="https://www.chartjs.org/docs/latest/favicon.ico" style={{ width: "69%", height: "69%" }} alt="Made with Chart.js"></img>
               </div>
