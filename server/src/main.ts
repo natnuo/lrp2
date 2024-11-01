@@ -5,7 +5,7 @@ import path from "node:path";
 import * as fs from 'fs';
 import { parse } from 'fast-csv';
 
-const PORT = 3001;
+const PORT = process.env.PORT ?? 3001;
 
 const app = express();
 
