@@ -142,7 +142,7 @@ app.post("/api/gd/:isResidual/:x/:y", (req, res) => {
       } else {
         title = `${yaxes.slice(0, -1).map((vv) => { return CNTODN[vv as keyof typeof CNTODN]; }).join(", ")} and ${CNTODN[yaxes.at(-1) as keyof typeof CNTODN]}`;
       }
-      title+=" vs " + xaxis;
+      title+=" vs " + CNTODN[xaxis as keyof typeof CNTODN];
       if (isResidual) {
         title += " (Residual Plot)";
       }
