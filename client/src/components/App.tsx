@@ -111,7 +111,7 @@ const App = () => {
               <span className={`${styles["text-sm"]} ${styles["text-gray-500"]}`}>Nathan Tao</span>
             </div>
             <div className={`${styles["flex"]} ${styles["gap-2"]} ${styles["h-10"]}`}>
-              <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "9px", backgroundColor: "#242938", width: "40px" }} title="Made with Chart.js">
+              <div className={`${styles["flex"]} ${styles["justify-center"]} ${styles["items-center"]}`} style={{ borderRadius: "2.25px", backgroundColor: "#242938", width: "10px" }} title="Made with Chart.js">
                 <img src="https://www.chartjs.org/docs/latest/favicon.ico" style={{ width: "69%", height: "69%" }} alt="Made with Chart.js"></img>
               </div>
               <img src="https://camo.githubusercontent.com/eed59029fe16e0f33431721522fb0eede534a072db478245b89b6bc4ab1b10f3/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d65787072657373" alt="Made with Express.js" title="Made with Express.js"></img>
