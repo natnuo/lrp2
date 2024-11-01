@@ -140,7 +140,7 @@ app.post("/api/gd/:isResidual/:x/:y", (req, res) => {
       } else if (yaxes.length === 2) {
         title = `${CNTODN[yaxes[0] as keyof typeof CNTODN]} and ${CNTODN[yaxes[1] as keyof typeof CNTODN]}`;
       } else {
-        title = `${yaxes.slice(0, -1).map((vv) => { return CNTODN[vv as keyof typeof CNTODN]; }).join(", ")} and ${CNTODN[yaxes.at(-1) as keyof typeof CNTODN]}`;
+        title = `${yaxes.slice(0, -1).map((vv) => { return CNTODN[vv as keyof typeof CNTODN]; }).join(", ")}, and ${CNTODN[yaxes.at(-1) as keyof typeof CNTODN]}`;
       }
       title+=" vs " + CNTODN[xaxis as keyof typeof CNTODN];
       if (isResidual) {
