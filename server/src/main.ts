@@ -2,9 +2,12 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import path from "node:path";
-import * as fs from 'fs';
-import { parse } from 'fast-csv';
+import * as fs from "fs";
+import { parse } from "fast-csv";
+import https from "node:https";
 
+const SSL_KEY = fs.readFileSync(process.env.SSL_KEY ?? path.resolve(__dirname, "../key.pem"));
+const SSL_CERT = fs.readFileSync(process.env.SSL_CERT ?? path.resolve(__dirname, "../cert.pem"));
 const PORT = process.env.PORT ?? 3001;
 
 const app = express();
@@ -33,9 +36,8 @@ const CNTODN = {
   wingspan: "Wingspan (in)",
 };
 
-// TODO: HANDLE DATA REQUESTS, CHECK FORMAT IN App.tsx
 app.post("/api/gd/:isResidual/:x/:y", (req, res) => {
-  const isResidual = req.params.isResidual === '1';
+  const isResidual = req.params.isResidual === "1";
   const xaxis = req.params.x;
   const yaxes = new Set(req.params.y.split(","));
 
@@ -133,6 +135,6 @@ app.post("/api/gd/:isResidual/:x/:y", (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+https.createServer({ key: SSL_KEY, cert: SSL_CERT }, app).listen(PORT, () => {
   console.log("App listening on port", PORT);
 });
