@@ -40,6 +40,11 @@ const App = () => {
     { display_name: "Wingspan (in)", code_name: "wingspan", active: false },
   ]);
 
+  const yaRef = useRef(yAxes);
+  useEffect(() => {
+    yaRef.current = yAxes;
+  }, [yAxes]);
+
   // crazy naming convention standardization right here ong
   const validDeact = useCallback((dataColumn: DataColumn) => {
     const actv = yAxes.filter((vv) => { return vv.active && vv.code_name !== dataColumn.code_name; });
@@ -70,6 +75,7 @@ const App = () => {
       },
     }).then(async (res) => {
       const json = await res.json();
+      if (yAxes !== yaRef.current) return;
       setData(json.data);
       setTitle(json.title);
       setLoading(false);
