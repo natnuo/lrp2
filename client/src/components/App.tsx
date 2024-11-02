@@ -40,11 +40,6 @@ const App = () => {
     { display_name: "Wingspan (in)", code_name: "wingspan", active: false },
   ]);
 
-  const yaRef = useRef(yAxes);
-  useEffect(() => {
-    yaRef.current = yAxes;
-  }, [yAxes]);
-
   // crazy naming convention standardization right here ong
   const validDeact = useCallback((dataColumn: DataColumn) => {
     const actv = yAxes.filter((vv) => { return vv.active && vv.code_name !== dataColumn.code_name; });
@@ -66,6 +61,12 @@ const App = () => {
   const [title, setTitle] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [isResidual, setIsResidual] = useState(false);
+
+  const gsRef = useRef(yAxes + "x" + isResidual);
+  useEffect(() => {
+    gsRef.current = yAxes + "x" + isResidual;
+  }, [yAxes, isResidual]);
+
   useEffect(() => {
     setLoading(true);
     fetch(`api/gd/${isResidual ? 1 : 0}/${xAxis.code_name}/${yAxes.filter((vv) => { return vv.active }).map((vv) => { return vv.code_name; }).join(",")}`, {
@@ -75,7 +76,7 @@ const App = () => {
       },
     }).then(async (res) => {
       const json = await res.json();
-      if (yAxes !== yaRef.current) return;
+      if (yAxes + "x" + isResidual !== gsRef.current) return;
       setData(json.data);
       setTitle(json.title);
       setLoading(false);
