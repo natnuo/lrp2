@@ -59,8 +59,10 @@ const App = () => {
 
   const [data, setData] = useState<any>();
   const [title, setTitle] = useState<string>();
+  const [loading, setLoading] = useState(false);
   const [isResidual, setIsResidual] = useState(false);
   useEffect(() => {
+    setLoading(true);
     fetch(`api/gd/${isResidual ? 1 : 0}/${xAxis.code_name}/${yAxes.filter((vv) => { return vv.active }).map((vv) => { return vv.code_name; }).join(",")}`, {
       method: "POST",
       headers: {
@@ -70,6 +72,7 @@ const App = () => {
       const json = await res.json();
       setData(json.data);
       setTitle(json.title);
+      setLoading(false);
     });
   }, [xAxis, yAxes, isResidual]);
 
@@ -126,7 +129,7 @@ const App = () => {
               options={{
                 type: "scatter",
                 data: {
-                  datasets: data,
+                  datasets: loading ? [] : data,
                 },
                 options: {
                   plugins: {
