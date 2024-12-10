@@ -4,4 +4,4 @@ sudo apt install nodejs -y
 sudo apt install npm -y
 sudo apt-get install libcap2-bin
 sudo setcap cap_net_bind_service=+ep `which node`
-sudo bash setup.bash
+sudo bash build.bash
